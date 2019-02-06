@@ -3,5 +3,5 @@ const Rideshare = artifacts.require("Rideshare");
 
 module.exports = function(deployer) {
   deployer.deploy(MyStringStore);
-  deployer.deploy(Rideshare, accounts[1]);
+  deployer.deploy(Rideshare);
 };

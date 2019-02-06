@@ -1,44 +1,23 @@
 pragma solidity ^0.5.0;
 
 contract Rideshare {
-    // address payee; // owner to receive payment
-    // address payer; // user to hire a car
 
     struct Vehicle {
         string make;
         string model;
         uint price;
         string location; // locating is converted from string to address using parseAddress string
-        VehicleState state;
+        VehicleState state; // status of the vehicle. Has to be idle to hire vehicle
     }
     
     struct User {
-        // address addr;
         string fName;
         string lName;
         string licenceNo;
         string dob;
     }
 
-    // struct Owner {
-    //     address addr;
-    //     string name;
-    //     string fName;
-    //     string lName;
-    //     string licenceNo;
-    //     string dob;
-    // }
-
-    // struct Driver {
-    //     address addr;
-    //     string fName;
-    //     string lName;
-    //     string licenceNo;
-    //     string dob;
-    // }
-
     struct Rental {
-        // uint rentalno;
         address driver;
         address vehicle;
         uint start_date;
@@ -65,6 +44,7 @@ contract Rideshare {
     // number of owners with listing of vehicles
     address[] public vehicleAccts;
     
+    // Register the user
     function setUser(
         address addr, 
         string memory fName, 
@@ -79,7 +59,7 @@ contract Rideshare {
         return (addr, users[addr].fName, users[addr].lName, users[addr].licenceNo, users[addr].dob);
     }
 
-
+    // hire a vehicle
     function setHire(
         address driver,
         address vehicle,   // vehicle is the same as owner's key
@@ -107,7 +87,8 @@ contract Rideshare {
             vehicleInfo.location
         );
     }
-    
+
+    // register the vehicle onto the blockhain    
     function setVehicle(address owner, string memory make, string memory model, uint price, string memory location) public {
         Vehicle storage vehicle = vehicles[owner];
         
@@ -119,8 +100,8 @@ contract Rideshare {
         vehicleAccts.push(owner) -1;
     }
     
-    function getVehicle(address owner) public view returns (string memory, string memory, uint) {
-        return (vehicles[owner].make, vehicles[owner].model, vehicles[owner].price);
+    function getVehicle(address owner) public view returns (string memory, string memory, uint, string memory) {
+        return (vehicles[owner].make, vehicles[owner].model, vehicles[owner].price, vehicles[owner].location);
     }
     
 
